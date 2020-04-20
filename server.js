@@ -35,7 +35,7 @@ app.get('/auth', function(req, res) {
         response_type: "code",
         redirect_uri: getRedirectUri(req),
         client_id: process.env.CLIENT_ID,
-        scope: "core:*:*",
+        scope: "core:*:* quizzing:quizzes:read",
         // Generate a secure state in production to prevent CSRF (https://tools.ietf.org/html/rfc6749#section-10.12)
         state: "f4c269a0-4a69-43c1-9405-86209c896fa0"
     });
@@ -90,6 +90,7 @@ app.get('/data', function(req, res) {
                 console.log(errorMessage);
                 res.send(`<pre>${errorMessage}</pre>`);
             } else {
+                console.log('Bearer Token', access_token);
                 var locals = { data: JSON.stringify(JSON.parse(response.text || '{}'), null, 2) };
                 res.render('data', locals);
             }
